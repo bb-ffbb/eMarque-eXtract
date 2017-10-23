@@ -1,0 +1,240 @@
+#!/usr/bin/env python
+
+import json, re, subprocess as sp, argparse
+from warnings import warn
+
+class MultilineEvent(RuntimeError):
+    pass
+
+class Event:
+    evtline = re.compile('(?P<id>[0-9]+)\s+(?P<period>.+\S)\s+(?P<chrono>[0-9]{1,2}(h|:)[0-9]{2})\s+(?P<team>A|B)?\s+(?P<evt>.*)$')
+    periods = {
+        '1' : 'Période 1',
+        '2' : 'Période 2',
+        '3' : 'Période 3',
+        '4' : 'Période 4',
+        'OT': 'Prolongations',
+        'B' : 'Avant match',
+        'A' : 'Après match',
+        }
+    evttypes = {
+        'player-added': re.compile('(?P<pteam>A|B)(?P<player>[0-9]{1,2}), (?P<name>.+), a été ajouté$'),
+        'cap-added':  re.compile("(?P<pteam>A|B)(?P<player>[0-9]{1,2}), (?P<name>.+) a été désigné capitaine d'équipe$"),
+        'coach-added': re.compile("L'entraîneur (?P<pteam>A|B) (?P<role>principal|adjoint), (?P<name>.+), a été ajouté$"),
+        'ref-added': re.compile("L'(?P<assistant>aide-)?arbitre ?(?P<num>[0-9]+)?, (?P<name>.+), a été ajouté$"),
+        'off-added': re.compile('(?P<role>Le marqueur|Le délégué de club|Le chronométreur|L\'opérateur des 24"), (?P<name>.+), a été ajouté$'),
+        'subst-enter': re.compile("(?P<pteam>A|B)(?P<player>[0-9]{1,2}), (?P<name>.+) est entré sur le terrain de jeu$"),
+        'subst-exit': re.compile("(?P<pteam>A|B)(?P<player>[0-9]{1,2}), (?P<name>.+) est sorti du terrain de jeu$"),
+        'field-goal': re.compile("(?P<pteam>A|B)(?P<player>[0-9]{1,2}), (?P<name>.+) : Tir à (?P<pts>2|3) points réussi \((?P<personal>[0-9]+)\)$"),
+        'free-throw': re.compile("(?P<pteam>A|B)(?P<player>[0-9]{1,2}), (?P<name>.+) : Lancer franc réussi \((?P<personal>[0-9]+)\)$"),
+        'free-throw-miss': re.compile("(?P<pteam>A|B)(?P<player>[0-9]{1,2}), (?P<name>.+) : Lancer franc manqué \((?P<personal>[0-9]+)\)$"),
+        'foul': re.compile("Faute : (?P<type>.+) à (?P<pteam>A|B)(?P<player>[0-9]{1,2}), (?P<ord>.+) faute personnelle$"),
+        'disqualify': re.compile("(?P<pteam>A|B)(?P<player>[0-9]{1,2}), (?P<name>.+), a été disqualifié suite à l'événement (?P<evtid>[0-9]+)$"),
+        'cancel': re.compile("L'événement n°(?P<evtid>[0-9]+) a été annulé$"),
+        'modify': re.compile("L'événement n°(?P<evtid>[0-9]+) a été modifié$"),
+        'arrow-start': re.compile("Sens initial de la flèche déterminé : Equipe (?P<pteam>A|B)$"),
+        'arrow': re.compile("Flèche retournée, équipe (?P<pteam>A|B) bénéficiaire$"),
+        'timeout': re.compile("Temps-Mort \((?P<min>.+) minute\)$"),
+        'open': re.compile("Lancement d'une nouvelle rencontre$"),
+        'close': re.compile("Clôture de la rencontre$"),
+        'begin': re.compile("Début du match$"),
+        'end': re.compile("Fin du match$"),
+        'period-end': re.compile("Fin de période : Passage à la période suivante$"),
+        'other': re.compile("Configuration des bancs d'équipes et paniers par défaut$"
+                                + "|L'entraîneur de l'équipe (?P<team>A|B) a effectué ses entrées en jeu et confirmé sa liste$"
+                                + "|Remarque Avant-Match : .*$"),
+        }
+
+    
+    def __init__(self, line, *lines):
+        m = Event.evtline.match(line)
+        if m is None:
+            raise RuntimeError('Cannot parse line: %s' % line)
+        self.id = int(m.group('id'))
+        try:
+            self.period = next(k for k, v in Event.periods.items() if v == m.group('period'))
+        except StopIteration:
+            raise RuntimeError('Cannot parse line: %s' % line)
+        self.live = ':' in m.group('chrono')
+        if self.live:
+            mins, secs = map(int, m.group('chrono').split(':'))
+            self.chrono = 60*mins + secs
+        else:
+            self.chrono = tuple(map(int, m.group('chrono').split('h')))
+        
+        self.team = m.group('team')
+        self.event = m.group('evt')
+
+        self.canceled = self.replaced = False
+        if self.event == 'Evénement annulé :':
+            if not lines:
+                raise MultilineEvent()
+            if len(lines) == 1:
+                self.canceled = True
+                self.event = lines[0]
+            elif len(lines) == 3 and lines[1] == 'Remplacé par :':
+                self.replaced = True
+                self.old = self.event
+                self.event = lines[2]
+            else:
+                raise RuntimeError('Cannot parse line: %s\n\t%s' % (line, '\n\t'.join(lines)))
+            
+        for t, regex in Event.evttypes.items():
+            evt = regex.match(self.event)
+            if evt:
+                self.type = t
+                for k, v in evt.groupdict().items():
+                    setattr(self, k, v)
+                if hasattr(self, 'pteam') and self.team != self.pteam:
+                    warn('Team mismatch: %s' % line)
+                break
+        else:
+            warn('Unknown event: %s' % self.event)
+            self.type = None
+
+    def __repr__(self):
+        return "%d: %s" % (self.id, self.type or 'unknown')
+
+
+def parse_pdf(file, top=180, height=620, width=595):
+    cmd = sp.run(['pdftotext', '-nopgbrk', '-layout',
+                      '-y', str(top),
+                      '-H', str(height),
+                      '-W', str(width),
+                      file, '-'], stdout=sp.PIPE)
+    lines = iter(cmd.stdout.decode().splitlines())
+    events = []
+    cnt = 1
+    line = next(lines)
+    morelines = []
+    done = False
+    while not done:
+        try:
+            nextline = next(lines)
+        except StopIteration:
+            done = True
+
+        if not done and nextline[0] in " \t":
+            morelines.append(nextline.lstrip())
+        else:
+            evt = Event(line, *morelines)
+            if evt.id != cnt:
+                warn('Skipped event. Expected %d, found %d.' % (cnt, evt.id))
+            cnt = evt.id + 1
+            events.append(evt)
+            line = nextline
+            morelines = []
+    if events[0].type != "open":
+        warn("Report does not start with opening event")
+    if events[-1].type != "close":
+        warn("Report does not end with closing event")
+    return events
+
+class Player:
+    def __init__(self, num, name):
+        self.num = num
+        self.name = name
+        self.stats = {
+            'fg2': 0,
+            'fg3': 0,
+            'ftmade': 0,
+            'ftmiss': 0,
+            'pf': 0,
+            'min': 0,
+            'pm': 0,
+            }
+
+    def __repr__(self):
+        return '%s (%s)' % (self.num, self.name)
+
+def stats(events):
+    teams = {
+        'A' : {},
+        'B' : {},
+        }
+    oncourt = {
+        'A' : set(),
+        'B' : set(),
+        }
+    
+    for e in events:
+        if e.canceled or e.team is None or not hasattr(e, 'player'):
+            continue
+        
+        if e.type == 'player-added':
+            teams[e.team][e.player] = Player(e.player, e.name)
+            continue
+
+        team, other = ('A', 'B') if e.team == 'A' else ('B', 'A')
+        player = teams[team][e.player]
+
+        if e.type == 'subst-enter':
+            oncourt[team].add(player.num)
+            if e.live:
+                player.stats['min'] -= e.chrono
+        elif e.type in ('subst-exit', 'disqualify'):
+            oncourt[team].remove(player.num)
+            if e.live:
+                player.stats['min'] += e.chrono
+        elif e.type in ['field-goal', 'free-throw', 'free-throw-miss', 'foul']:
+            for t in (team, other):
+                if len(oncourt[t]) != 5:
+                    warn('Team %s has %d players on court' % (t, len(oncourt[t])))
+            if player.num not in oncourt[team]:
+                warn('Player %s not on court' % player.num)
+                
+            if e.type == 'foul':
+                player.stats['pf'] += 1
+            elif e.type == 'free-throw-miss':
+                player.stats['ftmiss'] += 1
+            else:
+                pts = hasattr(e, 'pts') and int(e.pts) or 1
+                player.stats[['ftmade', 'fg2', 'fg3'][pts-1]] +=1
+                for p in oncourt[team]:
+                    teams[team][p].stats['pm'] += pts
+                for p in oncourt[other]:
+                    teams[other][p].stats['pm'] -= pts
+
+    for t in ('A', 'B'):
+        if oncourt[t]:
+            warn('Team %s still has players on court at the end of the game: %s'
+                     % (t, ', '.join(oncourt[t])))
+            for p in oncourt[t]:
+                teams[t][p].stats['min'] += 40*60
+    return teams
+
+def ascii_stats(teamname, stats):
+    out = 'Team %s\n' % teamname
+    nlen = max(len(p.name) for p in stats)
+    out += ' '*(nlen + 5) + '| min | pts | 2pt FG | 3pt FG | FT (m/tot) | PF |  ±\n'
+    
+    team = Player('', 'TOTAL')
+    for s in team.stats.keys():
+        team.stats[s] = sum(p.stats[s] for p in stats)
+
+    formats = ' {num:>2} {name:<%d} | {min:>3} | {pts:>3} | {fg2:>4}   | {fg3:>4}   | {ftm:>5}/{ftt:>2}   | {pf:>2} | {pm:>+3}\n' % nlen
+    for p in sorted(stats, key=lambda p: '{:0>2}'.format(p.num)) + [team]:
+        out += formats.format(
+            num=p.num,
+            name=p.name,
+            min=p.stats['min'] // 60 or bool(p.stats['min'])*'1',
+            pts=p.stats['ftmade'] + 2*p.stats['fg2'] + 3*p.stats['fg3'],
+            fg2=p.stats['fg2'] or '',
+            fg3=p.stats['fg3'] or '',
+            ftm=p.stats['ftmade'] or bool(p.stats['ftmiss'])*'0',
+            ftt=p.stats['ftmade'] + p.stats['ftmiss'] or '',
+            pf=p.stats['pf'],
+            pm=p.stats['pm'],
+            )
+
+    return out
+
+###########################
+
+parser = argparse.ArgumentParser(description='Parse eMarque pdf report')
+parser.add_argument('file')
+args = parser.parse_args()
+
+stats = stats(parse_pdf(args.file))
+for t in ('A', 'B'):
+    print(ascii_stats(t, list(stats[t].values())))
