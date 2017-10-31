@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using static Newtonsoft.Json.JsonConvert;
 
 
@@ -27,6 +28,12 @@ namespace GameFileConverter
                         break;
                     case "Basket2.Model.Rencontre":
                         className = "GameFileConverter.Game";
+                        break;
+                    case "Basket2.Model.Utilities.CodeChecker":
+                        className = "GameFileConverter.Checksum";
+                        break;
+                    case "Basket2.Model.TypePhaseRencontre":
+                        className = "GameFileConverter.Phase";
                         break;
                     default:
                         Console.WriteLine(String.Format("cannot find type to bind to ${0}", typeName));
@@ -59,8 +66,15 @@ namespace GameFileConverter
     [Serializable]
     public class Game 
     {
+        [JsonProperty(PropertyName = "gameChecksum")]
+        public Checksum _codeChecker;
+
         [JsonProperty(PropertyName = "totalPlayedTime")]
         public TimeSpan _tpsJeuTotal;
+
+        [JsonProperty(PropertyName = "gamePhase")]
+        [JsonConverter(typeof(StringEnumConverter))]
+        public Phase _phaseRencontre;
 
         [JsonProperty(PropertyName = "localTeam")]
         public Team EquipeA{ get; private set; }
@@ -81,4 +95,20 @@ namespace GameFileConverter
         [JsonProperty(PropertyName = "digitalNumber")]
         public string _numInformatique;
     }
+
+    [Serializable]
+    public class Checksum
+    {
+        [JsonProperty(PropertyName = "value")]
+        public string _checksum;
+    }
+
+    public enum Phase
+    {
+        SaisieAdministrative,
+        AvantMatch,
+        Match,
+        ApresMatch
+    }
+
 }

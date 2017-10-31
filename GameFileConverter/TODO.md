@@ -1,5 +1,6 @@
 ﻿Basket2.Model.Rencontre
 Basket2.Model.Equipe
+Basket2.Model.Utilities.CodeChecker
 
 
 Basket2.Biblio.Position
@@ -56,4 +57,4 @@ Basket2.Model.Statistiques.StatsEquipe
 Basket2.Model.Statistiques.StatsJoueur
 Basket2.Model.TypePerteRencontre
 Basket2.Model.TypePhaseRencontre
-Basket2.Model.Utilities.CodeChecker
+
