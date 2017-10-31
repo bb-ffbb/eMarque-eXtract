@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters.Binary;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -15,45 +16,102 @@ namespace GameFileConverter
             if (assemblyName ==
                 "Basket2, Version=1.0.0.4, Culture=neutral, PublicKeyToken=null")
             {
-                string className = "GameFileConverter.Game";
-
                 assemblyName = Assembly.GetExecutingAssembly().FullName;
+            } 
 
-                switch (typeName)
-                {
-                    case "Basket2.Model.Equipe":
-                        className = "GameFileConverter.Team";
-                        break;
-                    case "Basket2.Model.Rencontre":
-                        className = "GameFileConverter.Game";
-                        break;
-                    case "Basket2.Model.Utilities.CodeChecker":
-                        className = "GameFileConverter.Checksum";
-                        break;
-                    case "Basket2.Model.TypePhaseRencontre":
-                        className = "GameFileConverter.Phase";
-                        break;
-                    case "Basket2.Biblio.Position":
-                        className = "GameFileConverter.Position";
-                        break;
-                    //case "Basket2.Model.Evenements.TirEventArgs":
-                        //className = "GameFileConverter.Shot";
-                        //break;
-                    //case "Basket2.Model.Evenements.ConfigBancEquipeEventArgs":
-                        //className = "GameFileConverter.TeamBenchConfiguration";
-                        //break;
-                    default:
-                        Console.WriteLine(String.Format("cannot find type to bind to {0}", typeName));
-                        break;
-                }
+            string foundType = String.Format("{0}, {1}", getLocalType(typeName), assemblyName);
+            Console.WriteLine(String.Format("{0}", foundType));
+            return Type.GetType(foundType);
+        }
 
-                string foundType = String.Format("{0}, {1}", className, assemblyName);
-                Console.WriteLine(String.Format("{0} {1}", typeName, foundType));
+        public string getLocalType(string typeName)
+        {
+            string className = "GameFileConverter.Game";
 
-                return Type.GetType(foundType);
+            switch (typeName)
+            {
+                case "Basket2.Model.Equipe":
+                    className = "GameFileConverter.Team";
+                    break;
+                case "Basket2.Model.Rencontre":
+                    className = "GameFileConverter.Game";
+                    break;
+                case "Basket2.Model.Utilities.CodeChecker":
+                    className = "GameFileConverter.Checksum";
+                    break;
+                case "Basket2.Model.TypePhaseRencontre":
+                    className = "GameFileConverter.Phase";
+                    break;
+                case "Basket2.Biblio.Position":
+                    className = "GameFileConverter.Position";
+                    break;
+                //case "Basket2.Import.Model.Licence":
+                    //className = "GameFileConverter.LicenseInfos";
+                    //break;
+                case "Basket2.Import.Model.LicenciesLicencie":
+                    className = "GameFileConverter.LicenseDetails";
+                    break;
+                case "Basket2.Model.TypePerteRencontre":
+                    className = "GameFileConverter.Loose";
+                    break;
+                //case "Basket2.Model.Evenements.TirEventArgs":
+                //className = "GameFileConverter.Shot";
+                //break;
+                //case "Basket2.Model.Evenements.ConfigBancEquipeEventArgs":
+                //className = "GameFileConverter.TeamBenchConfiguration";
+                //break;
+                case "System.Collections.Generic.List`1[[System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]":
+                    break;
+                case "System.Collections.Generic.Dictionary`2[[System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Collections.Generic.KeyValuePair`2[[System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]":
+                    break;
+                //case "System.Collections.Generic.Dictionary`2[[System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[Basket2.Import.Model.Licence, Basket2, Version=1.0.0.4, Culture=neutral, PublicKeyToken=null]]":
+                    //className = "System.Collections.Generic.Dictionary`2[[System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[GameFileConverter.LicenseInfos]]";
+                    //break;
+                case "System.Collections.Generic.List`1[[Basket2.Import.Model.LicenciesLicencie, Basket2, Version=1.0.0.4, Culture=neutral, PublicKeyToken=null]]":
+                    className = "System.Collections.Generic.List`1[[GameFileConverter.LicenseDetails]]";
+                    break;
+                case "System.Collections.Generic.List`1[[Basket2.Model.Licencies.EncadrantRencontre, Basket2, Version=1.0.0.4, Culture=neutral, PublicKeyToken=null]]":
+                    break;
+                case "System.Collections.Generic.Dictionary`2[[Basket2.Model.Licencies.TypeFonctionEncadrant, Basket2, Version=1.0.0.4, Culture=neutral, PublicKeyToken=null],[System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]":
+                    break;
+                case "System.Collections.Generic.GenericEqualityComparer`1[[System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]":
+                    break;
+                case "System.Collections.Generic.KeyValuePair`2[[System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Collections.Generic.KeyValuePair`2[[System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]":
+                    break;
+                case "System.Collections.Generic.KeyValuePair`2[[System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]":
+                    break;
+                case "System.Collections.Generic.GenericEqualityComparer`1[[System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]":
+                    break;
+                case "System.Collections.Generic.KeyValuePair`2[[System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[Basket2.Import.Model.Licence, Basket2, Version=1.0.0.4, Culture=neutral, PublicKeyToken=null]]":
+                    break;
+                case "System.Collections.Generic.List`1[[Basket2.Model.Licencies.Joueur, Basket2, Version=1.0.0.4, Culture=neutral, PublicKeyToken=null]]":
+                    break;
+                case "System.Collections.Generic.List`1[[Basket2.Model.Licencies.Entraineur, Basket2, Version=1.0.0.4, Culture=neutral, PublicKeyToken=null]]":
+                    break;
+                case "System.Collections.Generic.ObjectEqualityComparer`1[[Basket2.Model.Licencies.TypeFonctionEncadrant, Basket2, Version=1.0.0.4, Culture=neutral, PublicKeyToken=null]]":
+                    break;
+                case "System.Collections.Generic.KeyValuePair`2[[Basket2.Model.Licencies.TypeFonctionEncadrant, Basket2, Version=1.0.0.4, Culture=neutral, PublicKeyToken=null],[System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]":
+                    break;
+                case "System.Collections.Generic.List`1[[Basket2.Model.Evenements.BaseEventArgs, Basket2, Version=1.0.0.4, Culture=neutral, PublicKeyToken=null]]":
+                    break;
+                case "System.Object":
+                    className = "System.Object";
+                    break;
+                case "System.Collections.Generic.List`1[[Basket2.Biblio.ValueAndText`1[[Basket2.Model.Evenements.AnomalieEventArgs, Basket2, Version=1.0.0.4, Culture=neutral, PublicKeyToken=null]], Basket2, Version=1.0.0.4, Culture=neutral, PublicKeyToken=null]]":
+                    break;
+                case "System.Collections.Generic.List`1[[Basket2.Model.Evenements.FauteEntraineurEventArgs, Basket2, Version=1.0.0.4, Culture=neutral, PublicKeyToken=null]]":
+                    break;
+                case "System.Collections.Generic.List`1[[Basket2.Model.Evenements.TempsMortEventArgs, Basket2, Version=1.0.0.4, Culture=neutral, PublicKeyToken=null]]":
+                    break;
+                case "System.Collections.Generic.List`1[[Basket2.Model.Evenements.FauteJoueurEventArgs, Basket2, Version=1.0.0.4, Culture=neutral, PublicKeyToken=null]]":
+                    break;
+                case "System.Collections.Generic.List`1[[Basket2.Model.Evenements.TirEventArgs, Basket2, Version=1.0.0.4, Culture=neutral, PublicKeyToken=null]]":
+                    break;
+                default:
+                    break;
             }
-
-            return Type.GetType("string");
+            Console.WriteLine(String.Format("{0} -> {1}", typeName, className));
+            return className;
         }
     }
 
@@ -134,11 +192,38 @@ namespace GameFileConverter
         [JsonProperty(PropertyName = "currentPeriodDuration")]
         public TimeSpan _dureePeriodeCourante;
 
+        [JsonProperty(PropertyName = "degreesList")]
+        public Dictionary<int, KeyValuePair<string, string>> diplomes;
+
+        //[JsonProperty(PropertyName = "licenses")]
+        //public Dictionary<string, LicenseInfos> licences;
+
+        [JsonProperty(PropertyName = "licenseRevision")]
+        public uint licencesRev;
+
         [JsonProperty(PropertyName = "localTeam")]
-        public Team EquipeA{ get; private set; }
+        public Team EquipeA { get; private set; }
+
+        [JsonProperty(PropertyName = "localLicenses")]
+        public List<LicenseDetails> listeLicenciesA;
 
         [JsonProperty(PropertyName = "visitorTeam")]
-        public Team EquipeB{ get; private set; }
+        public Team EquipeB { get; private set; }
+
+        [JsonProperty(PropertyName = "visitorLicenses")]
+        public List<LicenseDetails> listeLicenciesB;
+
+        [JsonProperty(PropertyName = "externalLicenses")]
+        public List<LicenseDetails> listeLicenciesEncadrant;
+
+        [JsonProperty(PropertyName = "forceOffline")]
+        public string[] _fbiTag;
+
+        [JsonProperty(PropertyName = "isLost")]
+        public bool hasPerte;
+
+        [JsonProperty(PropertyName = "looseType")]
+        public Loose typePerte;
     }
 
     [Serializable]
@@ -189,6 +274,23 @@ namespace GameFileConverter
         public bool ConfigParDefaut { get; private set; }    
     }
 
+    [Serializable]
+    public class LicenseInfos
+    {
+        [JsonProperty(PropertyName = "type")]
+        public string typeField;
+    }
+
+    [Serializable]
+    public class LicenseDetails 
+    {
+        [JsonProperty(PropertyName = "lastName")]
+        public string nomField;
+
+        [JsonProperty(PropertyName = "firstName")]
+        public  string prenomField;
+    }
+
 
     [Serializable]
     public class Checksum
@@ -203,6 +305,14 @@ namespace GameFileConverter
         AvantMatch,
         Match,
         ApresMatch
+    }
+
+    public enum Loose
+    {
+        ParDefaut,
+        Forfait1,
+        Forfait2,
+        Forfait3
     }
 
 }

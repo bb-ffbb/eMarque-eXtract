@@ -27,6 +27,59 @@ Tested with EMarque test file.
     "affluence": null,
     "exportURI": null,
     "currentPeriodDuration": "00:10:00",
+    "degreesList": {
+        "0": {
+            "Key": "PasDeDiplome",
+            "Value": "Pas de diplome"
+        },
+        "100": {
+            "Key": "AnimClub",
+            "Value": "Animateur-Mini/Animateur-Club"
+        },
+        "200": {
+            "Key": "Initiateur",
+            "Value": "Initiateur"
+        },
+        "300": {
+            "Key": "EntJeunes",
+            "Value": "Entraîneur Jeunes"
+        },
+        "400": {
+            "Key": "EntRegion",
+            "Value": "Entraîneur Région"
+        },
+        "500": {
+            "Key": "EntFederal",
+            "Value": "Entraîneur Fédéral"
+        },
+        "600": {
+            "Key": "BE1",
+            "Value": "BE1/BPJEPS"
+        },
+        "700": {
+            "Key": "BE2S",
+            "Value": "BE2S"
+        },
+        "800": {
+            "Key": "BE2DE",
+            "Value": "BE2/DE"
+        },
+        "900": {
+            "Key": "DES",
+            "Value": "DES"
+        },
+        "1000": {
+            "Key": "DEPB",
+            "Value": "DEPB"
+        }
+    },
+    "licenseRevision": 2,
+    "localLicenses": [],
+    "visitorLicenses": [],
+    "externalLicenses": [],
+    "forceOffline": null,
+    "isLost": false,
+    "looseType": 0,
     "localTeam": {
         "fullName": "FRANCE",
         "shortName": "LOC",
