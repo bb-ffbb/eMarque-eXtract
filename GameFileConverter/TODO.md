@@ -1,9 +1,10 @@
 ﻿Basket2.Model.Rencontre
 Basket2.Model.Equipe
 Basket2.Model.Utilities.CodeChecker
-
-
 Basket2.Biblio.Position
+Basket2.Model.Evenements.TirEventArgs
+Basket2.Model.Evenements.ConfigBancEquipeEventArgs
+
 Basket2.Biblio.ValueAndText`1[[Basket2.Model.Evenements.AnomalieEventArgs
 Basket2.Import.Model.InformationsReglement
 Basket2.Import.Model.InformationsReglementCategorie

@@ -1,12 +1,10 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
-using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using static Newtonsoft.Json.JsonConvert;
-
 
 namespace GameFileConverter
 {
@@ -35,12 +33,24 @@ namespace GameFileConverter
                     case "Basket2.Model.TypePhaseRencontre":
                         className = "GameFileConverter.Phase";
                         break;
+                    case "Basket2.Biblio.Position":
+                        className = "GameFileConverter.Position";
+                        break;
+                    //case "Basket2.Model.Evenements.TirEventArgs":
+                        //className = "GameFileConverter.Shot";
+                        //break;
+                    //case "Basket2.Model.Evenements.ConfigBancEquipeEventArgs":
+                        //className = "GameFileConverter.TeamBenchConfiguration";
+                        //break;
                     default:
-                        Console.WriteLine(String.Format("cannot find type to bind to ${0}", typeName));
+                        Console.WriteLine(String.Format("cannot find type to bind to {0}", typeName));
                         break;
                 }
 
-                return Type.GetType(String.Format("{0}, {1}", className, assemblyName));
+                string foundType = String.Format("{0}, {1}", className, assemblyName);
+                Console.WriteLine(String.Format("{0} {1}", typeName, foundType));
+
+                return Type.GetType(foundType);
             }
 
             return Type.GetType("string");
@@ -76,6 +86,54 @@ namespace GameFileConverter
         [JsonConverter(typeof(StringEnumConverter))]
         public Phase _phaseRencontre;
 
+        [JsonProperty(PropertyName = "competitionPicture")]
+        public string _logoChampionnat;
+
+        [JsonProperty(PropertyName = "currentPlayedTime")]
+        public TimeSpan _chrono;
+
+        [JsonProperty(PropertyName = "isTimeRunning")]
+        public bool _etatChronoON;
+
+        [JsonProperty(PropertyName = "periodPlayedTime")]
+        public TimeSpan _tpsJeuPeriode;
+
+        [JsonProperty(PropertyName = "startDateTime")]
+        public DateTime _dateRencontre;
+
+        [JsonProperty(PropertyName = "endDateTime")]
+        public DateTime? _dateFin;
+
+        [JsonProperty(PropertyName = "place")]
+        public string _lieu;
+
+        [JsonProperty(PropertyName = "mailContact")]
+        public string _mailStruct;
+
+        [JsonProperty(PropertyName = "gameID")]
+        public string _numRencontre;
+
+        [JsonProperty(PropertyName = "pool")]
+        public string _poule;
+
+        [JsonProperty(PropertyName = "tvChannel")]
+        public string _chaineTV;
+
+        [JsonProperty(PropertyName = "affluence")]
+        public string _nbSpectateur;
+
+        [JsonProperty(PropertyName = "exportURI")]
+        public string _exportURI;
+
+        //[JsonProperty(PropertyName = "lastShot")]
+        //public Shot _dernierTir;
+
+        //[JsonProperty(PropertyName = "benchTeam")]
+        //public TeamBenchConfiguration _configBancEquipe;
+
+        [JsonProperty(PropertyName = "currentPeriodDuration")]
+        public TimeSpan _dureePeriodeCourante;
+
         [JsonProperty(PropertyName = "localTeam")]
         public Team EquipeA{ get; private set; }
 
@@ -95,6 +153,42 @@ namespace GameFileConverter
         [JsonProperty(PropertyName = "digitalNumber")]
         public string _numInformatique;
     }
+
+    [Serializable]
+    public class Shot
+    {
+        [JsonProperty(PropertyName = "shotsCount")]
+        public int _nbTirJCumule;
+
+        [JsonProperty(PropertyName = "shotValue")]
+        public int NbPoint { get; private set; }
+
+        [JsonProperty(PropertyName = "isMade")]
+        public bool IsReussi { get; private set; }
+
+        [JsonProperty(PropertyName = "position")]
+        public Position Position { get; private set; }
+
+        [JsonProperty(PropertyName = "targetPosition")]
+        public Position PositionCible { get; private set; }
+    }
+
+    [Serializable]
+    public class Position {
+        [JsonProperty(PropertyName = "x")]
+        public int X { get; set; }
+
+        [JsonProperty(PropertyName = "y")]
+        public int Y { get; set; }    
+    }
+
+    [Serializable]
+    public class TeamBenchConfiguration    
+    {
+        [JsonProperty(PropertyName = "isDefaultConfiguration")]
+        public bool ConfigParDefaut { get; private set; }    
+    }
+
 
     [Serializable]
     public class Checksum
