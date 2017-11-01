@@ -45,9 +45,9 @@ namespace GameFileConverter
                 case "Basket2.Biblio.Position":
                     className = "GameFileConverter.Position";
                     break;
-                //case "Basket2.Import.Model.Licence":
-                    //className = "GameFileConverter.LicenseInfos";
-                    //break;
+                case "Basket2.Import.Model.Licence":
+                    className = "GameFileConverter.LicenseInfos";
+                    break;
                 case "Basket2.Import.Model.LicenciesLicencie":
                     className = "GameFileConverter.LicenseDetails";
                     break;
@@ -64,15 +64,16 @@ namespace GameFileConverter
                     break;
                 case "System.Collections.Generic.Dictionary`2[[System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Collections.Generic.KeyValuePair`2[[System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]":
                     break;
-                //case "System.Collections.Generic.Dictionary`2[[System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[Basket2.Import.Model.Licence, Basket2, Version=1.0.0.4, Culture=neutral, PublicKeyToken=null]]":
-                    //className = "System.Collections.Generic.Dictionary`2[[System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[GameFileConverter.LicenseInfos]]";
-                    //break;
+                case "System.Collections.Generic.Dictionary`2[[System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[Basket2.Import.Model.Licence, Basket2, Version=1.0.0.4, Culture=neutral, PublicKeyToken=null]]":
+                    //className = "System.Collections.Generic.Dictionary`2[[System.String],[GameFileConverter.LicenseInfos]]";
+                    break;
                 case "System.Collections.Generic.List`1[[Basket2.Import.Model.LicenciesLicencie, Basket2, Version=1.0.0.4, Culture=neutral, PublicKeyToken=null]]":
                     className = "System.Collections.Generic.List`1[[GameFileConverter.LicenseDetails]]";
                     break;
                 case "System.Collections.Generic.List`1[[Basket2.Model.Licencies.EncadrantRencontre, Basket2, Version=1.0.0.4, Culture=neutral, PublicKeyToken=null]]":
                     break;
                 case "System.Collections.Generic.Dictionary`2[[Basket2.Model.Licencies.TypeFonctionEncadrant, Basket2, Version=1.0.0.4, Culture=neutral, PublicKeyToken=null],[System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]":
+                    //className = "System.Collections.Generic.Dictionary`2[[GameFileConverter.LicenseDetails],[System.String]]";
                     break;
                 case "System.Collections.Generic.GenericEqualityComparer`1[[System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]":
                     break;
@@ -224,6 +225,24 @@ namespace GameFileConverter
 
         [JsonProperty(PropertyName = "looseType")]
         public Loose typePerte;
+
+        [JsonProperty(PropertyName = "isPlayerPointsDisplayed")]
+        public bool _displayPlayersPoints;
+
+        [JsonProperty(PropertyName = "isGameImported")]
+        public bool IsRencontreImportee { get; private set; }
+
+        [JsonProperty(PropertyName = "IsRulesImported")]
+        public bool HasReglementImporte { get; private set; }
+
+        [JsonProperty(PropertyName = "isTimerCertified")]
+        public bool GestionChronoCertifieeOk { get; set; }
+
+        [JsonProperty(PropertyName = "isShotInputCertified")]
+        public bool SaisieTirsCertifieeOk { get; set; }
+
+        [JsonProperty(PropertyName = "isCompetitionSet")]
+        public bool ChoixChampionnatOK { get; set; }
     }
 
     [Serializable]

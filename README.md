@@ -80,6 +80,7 @@ Tested with EMarque test file.
     "forceOffline": null,
     "isLost": false,
     "looseType": 0,
+    "isPlayerPointsDisplayed": true,
     "localTeam": {
         "fullName": "FRANCE",
         "shortName": "LOC",
@@ -89,6 +90,11 @@ Tested with EMarque test file.
         "fullName": "SERBIE",
         "shortName": "VIS",
         "digitalNumber": null
-    }
+    },
+    "isGameImported": false,
+    "IsRulesImported": false,
+    "isTimerCertified": false,
+    "isShotInputCertified": false,
+    "isCompetitionSet": true
 }
 ``` 
