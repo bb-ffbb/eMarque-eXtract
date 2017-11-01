@@ -295,10 +295,14 @@ namespace GameFileConverter
         {
             _nom = info.GetString("Licencie+_nom");
             _prenom = info.GetString("Licencie+_prenom");
+            Stats =  (PlayerStats) info.GetValue("<Stats>k__BackingField", typeof(PlayerStats));
         }
 
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
+            info.AddValue("nom", _nom);
+            info.AddValue("prenom", _prenom);
+            info.AddValue("stats", Stats);
         }
     }
 
@@ -316,7 +320,7 @@ namespace GameFileConverter
     public class PlayerStats
     {
         [JsonProperty(PropertyName = "sheet")]
-        public PlayerScoreSheet Stats { get; private set; }
+        public PlayerScoreSheet StatsDetaillees { get; private set; }
     }
 
     [Serializable]

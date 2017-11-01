@@ -84,12 +84,232 @@ Tested with EMarque test file.
     "localTeam": {
         "fullName": "FRANCE",
         "shortName": "LOC",
-        "digitalNumber": null
+        "digitalNumber": null,
+        "players": [
+            {
+                "nom": "LAUVERGNE",
+                "prenom": "J",
+                "stats": {
+                    "sheet": {
+                        "points": 9
+                    }
+                }
+            },
+            {
+                "nom": "BATUM",
+                "prenom": "N",
+                "stats": {
+                    "sheet": {
+                        "points": 5
+                    }
+                }
+            },
+            {
+                "nom": "DIOT",
+                "prenom": "A",
+                "stats": {
+                    "sheet": {
+                        "points": 0
+                    }
+                }
+            },
+            {
+                "nom": "PETRO",
+                "prenom": "J",
+                "stats": {
+                    "sheet": {
+                        "points": 2
+                    }
+                }
+            },
+            {
+                "nom": "LOMBAHE KAHUDI",
+                "prenom": "C",
+                "stats": {
+                    "sheet": {
+                        "points": 2
+                    }
+                }
+            },
+            {
+                "nom": "PARKER",
+                "prenom": "T",
+                "stats": {
+                    "sheet": {
+                        "points": 7
+                    }
+                }
+            },
+            {
+                "nom": "HEURTEL",
+                "prenom": "T",
+                "stats": {
+                    "sheet": {
+                        "points": 0
+                    }
+                }
+            },
+            {
+                "nom": "PIETRUS",
+                "prenom": "F",
+                "stats": {
+                    "sheet": {
+                        "points": 0
+                    }
+                }
+            },
+            {
+                "nom": "DE COLO",
+                "prenom": "N",
+                "stats": {
+                    "sheet": {
+                        "points": 4
+                    }
+                }
+            },
+            {
+                "nom": "DIAW",
+                "prenom": "B",
+                "stats": {
+                    "sheet": {
+                        "points": 4
+                    }
+                }
+            },
+            {
+                "nom": "AJINCA",
+                "prenom": "A",
+                "stats": {
+                    "sheet": {
+                        "points": 7
+                    }
+                }
+            },
+            {
+                "nom": "GELABALE",
+                "prenom": "M",
+                "stats": {
+                    "sheet": {
+                        "points": 9
+                    }
+                }
+            }
+        ]
     },
     "visitorTeam": {
         "fullName": "SERBIE",
         "shortName": "VIS",
-        "digitalNumber": null
+        "digitalNumber": null,
+        "players": [
+            {
+                "nom": "KRSTIC",
+                "prenom": "N",
+                "stats": {
+                    "sheet": {
+                        "points": 0
+                    }
+                }
+            },
+            {
+                "nom": "BOGDANOVIC",
+                "prenom": "B",
+                "stats": {
+                    "sheet": {
+                        "points": 5
+                    }
+                }
+            },
+            {
+                "nom": "BJELICA",
+                "prenom": "N",
+                "stats": {
+                    "sheet": {
+                        "points": 3
+                    }
+                }
+            },
+            {
+                "nom": "MARKOVIC",
+                "prenom": "S",
+                "stats": {
+                    "sheet": {
+                        "points": 6
+                    }
+                }
+            },
+            {
+                "nom": "LUCIC",
+                "prenom": "V",
+                "stats": {
+                    "sheet": {
+                        "points": 3
+                    }
+                }
+            },
+            {
+                "nom": "KRSTIC",
+                "prenom": "N",
+                "stats": {
+                    "sheet": {
+                        "points": 9
+                    }
+                }
+            },
+            {
+                "nom": "ANDUSIC",
+                "prenom": "D",
+                "stats": {
+                    "sheet": {
+                        "points": 7
+                    }
+                }
+            },
+            {
+                "nom": "KATIC",
+                "prenom": "R",
+                "stats": {
+                    "sheet": {
+                        "points": 6
+                    }
+                }
+            },
+            {
+                "nom": "STIMAC",
+                "prenom": "V",
+                "stats": {
+                    "sheet": {
+                        "points": 0
+                    }
+                }
+            },
+            {
+                "nom": "MICIC",
+                "prenom": "V",
+                "stats": {
+                    "sheet": {
+                        "points": 4
+                    }
+                }
+            },
+            {
+                "nom": "GAGIC",
+                "prenom": "D",
+                "stats": {
+                    "sheet": {
+                        "points": 0
+                    }
+                }
+            },
+            {
+                "nom": "KALINIC",
+                "prenom": "N",
+                "stats": {
+                    "sheet": {
+                        "points": 8
+                    }
+                }
+            }
+        ]
     },
     "isGameImported": false,
     "IsRulesImported": false,

@@ -4,13 +4,20 @@ Basket2.Model.Utilities.CodeChecker
 Basket2.Biblio.Position
 Basket2.Model.Evenements.TirEventArgs
 Basket2.Model.Evenements.ConfigBancEquipeEventArgs
+Basket2.Model.TypePhaseRencontre
+Basket2.Import.Model.Licence
+Basket2.Import.Model.LicenciesLicencie
+Basket2.Model.TypePerteRencontre
+Basket2.Model.Historique
+
+Basket2.Model.Licencies.Joueur
+Basket2.Model.Statistiques.StatsJoueur
+Basket2.Model.Statistiques.StatsDetaillees
 
 Basket2.Biblio.ValueAndText`1[[Basket2.Model.Evenements.AnomalieEventArgs
 Basket2.Import.Model.InformationsReglement
 Basket2.Import.Model.InformationsReglementCategorie
 Basket2.Import.Model.InformationsReglementChampionnat
-Basket2.Import.Model.Licence
-Basket2.Import.Model.LicenciesLicencie
 Basket2.Import.Model.Reglement
 Basket2.Import.Model.Regles
 Basket2.Import.Model.ReglesPhases
@@ -40,7 +47,7 @@ Basket2.Model.Evenements.TypeEvtEntreeSortieTerrain
 Basket2.Model.Evenements.TypeFauteJoueur
 Basket2.Model.Evenements.TypeModifHistorique
 Basket2.Model.Evenements.TypeReparationJoueur
-Basket2.Model.Historique
+
 Basket2.Model.Licencies.EncadrantRencontre
 Basket2.Model.Licencies.Entraineur
 Basket2.Model.Licencies.Joueur
@@ -56,6 +63,5 @@ Basket2.Model.Statistiques.StatsDetaillees
 Basket2.Model.Statistiques.StatsDetaillees+StatsTir
 Basket2.Model.Statistiques.StatsEquipe
 Basket2.Model.Statistiques.StatsJoueur
-Basket2.Model.TypePerteRencontre
-Basket2.Model.TypePhaseRencontre
+
 
