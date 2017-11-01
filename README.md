@@ -86,114 +86,52 @@ Tested with EMarque test file.
         "shortName": "LOC",
         "digitalNumber": null,
         "players": [
-            {
+                        {
                 "nom": "LAUVERGNE",
                 "prenom": "J",
                 "stats": {
                     "sheet": {
-                        "points": 9
+                        "points": 9,
+                        "shots": {
+                            "made": 3,
+                            "attempts": 3,
+                            "rate": 100
+                        },
+                        "threePointers": {
+                            "made": 0,
+                            "attempts": 0,
+                            "rate": 0
+                        },
+                        "twoPointers": {
+                            "made": 1,
+                            "attempts": 1,
+                            "rate": 100
+                        },
+                        "paintPointers": {
+                            "made": 2,
+                            "attempts": 2,
+                            "rate": 100
+                        },
+                        "freeThrows": {
+                            "made": 3,
+                            "attempts": 4,
+                            "rate": 75
+                        },
+                        "defensiveRebounds": 0,
+                        "offensiveRebounds": 0,
+                        "totalRebounds": 0,
+                        "personalFouls": 2,
+                        "causedFouls": 0,
+                        "steals": 0,
+                        "looses": 0,
+                        "assists": 0,
+                        "blockedShots": 0,
+                        "blocks": 0,
+                        "ratings": 8
                     }
                 }
             },
-            {
-                "nom": "BATUM",
-                "prenom": "N",
-                "stats": {
-                    "sheet": {
-                        "points": 5
-                    }
-                }
-            },
-            {
-                "nom": "DIOT",
-                "prenom": "A",
-                "stats": {
-                    "sheet": {
-                        "points": 0
-                    }
-                }
-            },
-            {
-                "nom": "PETRO",
-                "prenom": "J",
-                "stats": {
-                    "sheet": {
-                        "points": 2
-                    }
-                }
-            },
-            {
-                "nom": "LOMBAHE KAHUDI",
-                "prenom": "C",
-                "stats": {
-                    "sheet": {
-                        "points": 2
-                    }
-                }
-            },
-            {
-                "nom": "PARKER",
-                "prenom": "T",
-                "stats": {
-                    "sheet": {
-                        "points": 7
-                    }
-                }
-            },
-            {
-                "nom": "HEURTEL",
-                "prenom": "T",
-                "stats": {
-                    "sheet": {
-                        "points": 0
-                    }
-                }
-            },
-            {
-                "nom": "PIETRUS",
-                "prenom": "F",
-                "stats": {
-                    "sheet": {
-                        "points": 0
-                    }
-                }
-            },
-            {
-                "nom": "DE COLO",
-                "prenom": "N",
-                "stats": {
-                    "sheet": {
-                        "points": 4
-                    }
-                }
-            },
-            {
-                "nom": "DIAW",
-                "prenom": "B",
-                "stats": {
-                    "sheet": {
-                        "points": 4
-                    }
-                }
-            },
-            {
-                "nom": "AJINCA",
-                "prenom": "A",
-                "stats": {
-                    "sheet": {
-                        "points": 7
-                    }
-                }
-            },
-            {
-                "nom": "GELABALE",
-                "prenom": "M",
-                "stats": {
-                    "sheet": {
-                        "points": 9
-                    }
-                }
-            }
+            ...
         ]
     },
     "visitorTeam": {
@@ -201,114 +139,7 @@ Tested with EMarque test file.
         "shortName": "VIS",
         "digitalNumber": null,
         "players": [
-            {
-                "nom": "KRSTIC",
-                "prenom": "N",
-                "stats": {
-                    "sheet": {
-                        "points": 0
-                    }
-                }
-            },
-            {
-                "nom": "BOGDANOVIC",
-                "prenom": "B",
-                "stats": {
-                    "sheet": {
-                        "points": 5
-                    }
-                }
-            },
-            {
-                "nom": "BJELICA",
-                "prenom": "N",
-                "stats": {
-                    "sheet": {
-                        "points": 3
-                    }
-                }
-            },
-            {
-                "nom": "MARKOVIC",
-                "prenom": "S",
-                "stats": {
-                    "sheet": {
-                        "points": 6
-                    }
-                }
-            },
-            {
-                "nom": "LUCIC",
-                "prenom": "V",
-                "stats": {
-                    "sheet": {
-                        "points": 3
-                    }
-                }
-            },
-            {
-                "nom": "KRSTIC",
-                "prenom": "N",
-                "stats": {
-                    "sheet": {
-                        "points": 9
-                    }
-                }
-            },
-            {
-                "nom": "ANDUSIC",
-                "prenom": "D",
-                "stats": {
-                    "sheet": {
-                        "points": 7
-                    }
-                }
-            },
-            {
-                "nom": "KATIC",
-                "prenom": "R",
-                "stats": {
-                    "sheet": {
-                        "points": 6
-                    }
-                }
-            },
-            {
-                "nom": "STIMAC",
-                "prenom": "V",
-                "stats": {
-                    "sheet": {
-                        "points": 0
-                    }
-                }
-            },
-            {
-                "nom": "MICIC",
-                "prenom": "V",
-                "stats": {
-                    "sheet": {
-                        "points": 4
-                    }
-                }
-            },
-            {
-                "nom": "GAGIC",
-                "prenom": "D",
-                "stats": {
-                    "sheet": {
-                        "points": 0
-                    }
-                }
-            },
-            {
-                "nom": "KALINIC",
-                "prenom": "N",
-                "stats": {
-                    "sheet": {
-                        "points": 8
-                    }
-                }
-            }
+            ...
         ]
     },
     "isGameImported": false,

@@ -67,6 +67,9 @@ namespace GameFileConverter
                 case "Basket2.Model.Statistiques.StatsDetaillees":
                     className = "GameFileConverter.PlayerScoreSheet";
                     break;
+                case "Basket2.Model.Statistiques.StatsDetaillees+StatsTir":
+                    className = "GameFileConverter.ShootingStatistics";
+                    break;
                 //case "Basket2.Model.Evenements.TirEventArgs":
                 //className = "GameFileConverter.Shot";
                 //break;
@@ -328,7 +331,69 @@ namespace GameFileConverter
     {
         [JsonProperty(PropertyName = "points")]
         public int NbPtsTot { get; private set; }
+
+        [JsonProperty(PropertyName = "shots")]
+        public ShootingStatistics TirTot { get; private set; }
+
+        [JsonProperty(PropertyName = "threePointers")]
+        public ShootingStatistics TirTroisPts { get; private set; }
+
+        [JsonProperty(PropertyName = "twoPointers")]
+        public ShootingStatistics TirDeuxPtsExt { get; private set; }
+
+        [JsonProperty(PropertyName = "paintPointers")]
+        public ShootingStatistics TirDeuxPtsInt { get; private set; }
+
+        [JsonProperty(PropertyName = "freeThrows")]
+        public ShootingStatistics TirLF { get; private set; }
+
+        [JsonProperty(PropertyName = "defensiveRebounds")]
+        public int NbRbDef { get; private set; }
+
+        [JsonProperty(PropertyName = "offensiveRebounds")]
+        public int NbRbOff { get; private set; }
+
+        [JsonProperty(PropertyName = "totalRebounds")]
+        public int NbRbTot { get; private set; }
+
+        [JsonProperty(PropertyName = "personalFouls")]
+        public int NbFte { get; private set; }
+
+        [JsonProperty(PropertyName = "causedFouls")]
+        public int NbFtePr { get; private set; }
+
+        [JsonProperty(PropertyName = "steals")]
+        public int NbInt { get; private set; }
+
+        [JsonProperty(PropertyName = "looses")]
+        public int NbBp { get; private set; }
+
+        [JsonProperty(PropertyName = "assists")]
+        public int NbPd { get; private set; }
+
+        [JsonProperty(PropertyName = "blockedShots")]
+        public int NbCtrSub { get; private set; }
+
+        [JsonProperty(PropertyName = "blocks")]
+        public int NbCtr { get; private set; }
+
+        [JsonProperty(PropertyName = "ratings")]
+        public int Ev { get; private set; }
     }
+
+    [Serializable]
+    public class ShootingStatistics
+    {
+        [JsonProperty(PropertyName = "made")]
+        public int TR { get; private set; }
+
+        [JsonProperty(PropertyName = "attempts")]
+        public int TT { get; private set; }
+
+        [JsonProperty(PropertyName = "rate")]
+        public int Taux { get; private set; }
+    }
+
 
     [Serializable]
     public class Shot

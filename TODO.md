@@ -9,10 +9,10 @@ Basket2.Import.Model.Licence
 Basket2.Import.Model.LicenciesLicencie
 Basket2.Model.TypePerteRencontre
 Basket2.Model.Historique
-
 Basket2.Model.Licencies.Joueur
 Basket2.Model.Statistiques.StatsJoueur
 Basket2.Model.Statistiques.StatsDetaillees
+Basket2.Model.Statistiques.StatsDetaillees+StatsTir
 
 Basket2.Biblio.ValueAndText`1[[Basket2.Model.Evenements.AnomalieEventArgs
 Basket2.Import.Model.InformationsReglement
@@ -59,9 +59,7 @@ Basket2.Model.Periode
 
 Basket2.Model.Signature
 Basket2.Model.SignaturesFautes
-Basket2.Model.Statistiques.StatsDetaillees
-Basket2.Model.Statistiques.StatsDetaillees+StatsTir
+
 Basket2.Model.Statistiques.StatsEquipe
-Basket2.Model.Statistiques.StatsJoueur
 
 
