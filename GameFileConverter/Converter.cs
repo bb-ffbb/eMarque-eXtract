@@ -26,7 +26,7 @@ namespace GameFileConverter
 
         public string getLocalType(string typeName)
         {
-            string className = "GameFileConverter.Game";
+            string className = "GameFileConverter.Event";
 
             switch (typeName)
             {
@@ -60,6 +60,12 @@ namespace GameFileConverter
                 //case "Basket2.Model.Evenements.ConfigBancEquipeEventArgs":
                 //className = "GameFileConverter.TeamBenchConfiguration";
                 //break;
+                case "Basket2.Model.Historique":
+                    className = "GameFileConverter.Events";
+                    break;
+                case "Basket2.Model.BaseEventArgs":
+                    className = "GameFileConverter.Event";
+                    break;
                 case "System.Collections.Generic.List`1[[System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]":
                     break;
                 case "System.Collections.Generic.Dictionary`2[[System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Collections.Generic.KeyValuePair`2[[System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]":
@@ -93,20 +99,17 @@ namespace GameFileConverter
                     break;
                 case "System.Collections.Generic.KeyValuePair`2[[Basket2.Model.Licencies.TypeFonctionEncadrant, Basket2, Version=1.0.0.4, Culture=neutral, PublicKeyToken=null],[System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]":
                     break;
+                case "System.Collections.Generic.List`1[[Basket2.Model.Evenements.FauteEntraineurEventArgs, Basket2, Version=1.0.0.4, Culture=neutral, PublicKeyToken=null]]":
+                case "System.Collections.Generic.List`1[[Basket2.Model.Evenements.TempsMortEventArgs, Basket2, Version=1.0.0.4, Culture=neutral, PublicKeyToken=null]]":
+                case "System.Collections.Generic.List`1[[Basket2.Model.Evenements.FauteJoueurEventArgs, Basket2, Version=1.0.0.4, Culture=neutral, PublicKeyToken=null]]":
+                case "System.Collections.Generic.List`1[[Basket2.Model.Evenements.TirEventArgs, Basket2, Version=1.0.0.4, Culture=neutral, PublicKeyToken=null]]":
                 case "System.Collections.Generic.List`1[[Basket2.Model.Evenements.BaseEventArgs, Basket2, Version=1.0.0.4, Culture=neutral, PublicKeyToken=null]]":
+                    className = "System.Collections.Generic.List`1[[GameFileConverter.Event]]";
                     break;
                 case "System.Object":
                     className = "System.Object";
                     break;
                 case "System.Collections.Generic.List`1[[Basket2.Biblio.ValueAndText`1[[Basket2.Model.Evenements.AnomalieEventArgs, Basket2, Version=1.0.0.4, Culture=neutral, PublicKeyToken=null]], Basket2, Version=1.0.0.4, Culture=neutral, PublicKeyToken=null]]":
-                    break;
-                case "System.Collections.Generic.List`1[[Basket2.Model.Evenements.FauteEntraineurEventArgs, Basket2, Version=1.0.0.4, Culture=neutral, PublicKeyToken=null]]":
-                    break;
-                case "System.Collections.Generic.List`1[[Basket2.Model.Evenements.TempsMortEventArgs, Basket2, Version=1.0.0.4, Culture=neutral, PublicKeyToken=null]]":
-                    break;
-                case "System.Collections.Generic.List`1[[Basket2.Model.Evenements.FauteJoueurEventArgs, Basket2, Version=1.0.0.4, Culture=neutral, PublicKeyToken=null]]":
-                    break;
-                case "System.Collections.Generic.List`1[[Basket2.Model.Evenements.TirEventArgs, Basket2, Version=1.0.0.4, Culture=neutral, PublicKeyToken=null]]":
                     break;
                 default:
                     break;
@@ -243,6 +246,9 @@ namespace GameFileConverter
 
         [JsonProperty(PropertyName = "isCompetitionSet")]
         public bool ChoixChampionnatOK { get; set; }
+
+        [JsonProperty(PropertyName = "events")]
+        public Events Historique { get; private set; }
     }
 
     [Serializable]
@@ -317,6 +323,29 @@ namespace GameFileConverter
         [JsonProperty(PropertyName = "value")]
         public string _checksum;
     }
+
+
+    [Serializable]
+    public class Events
+    {        
+        private List<Event> Evenements { get; set; }
+
+        [JsonProperty(PropertyName = "count")]
+        public int count {
+            get { return this.Evenements.Count; }
+        }
+    }
+
+    [Serializable]
+    public class Event
+    {
+        [JsonProperty(PropertyName = "eventID")]
+        public int _idEvt;
+
+        [JsonProperty(PropertyName = "timestamps")]
+        public TimeSpan TpsJeu { get; private set; }
+    }
+
 
     public enum Phase
     {

@@ -95,6 +95,9 @@ Tested with EMarque test file.
     "IsRulesImported": false,
     "isTimerCertified": false,
     "isShotInputCertified": false,
-    "isCompetitionSet": true
+    "isCompetitionSet": true,
+    "events": {
+        "count": 280
+    }
 }
 ``` 
