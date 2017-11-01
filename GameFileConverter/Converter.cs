@@ -2,6 +2,7 @@
 using System.IO;
 using System.Reflection;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -17,7 +18,7 @@ namespace GameFileConverter
                 "Basket2, Version=1.0.0.4, Culture=neutral, PublicKeyToken=null")
             {
                 assemblyName = Assembly.GetExecutingAssembly().FullName;
-            } 
+            }
 
             string foundType = String.Format("{0}, {1}", getLocalType(typeName), assemblyName);
             Console.WriteLine(String.Format("{0}", foundType));
@@ -51,8 +52,20 @@ namespace GameFileConverter
                 case "Basket2.Import.Model.LicenciesLicencie":
                     className = "GameFileConverter.LicenseDetails";
                     break;
+                case "Basket2.Import.Model.Licencie":
+                    className = "GameFileConverter.Licensee";
+                    break;
                 case "Basket2.Model.TypePerteRencontre":
                     className = "GameFileConverter.Loose";
+                    break;
+                case "Basket2.Model.Licencies.Joueur":
+                    className = "GameFileConverter.Player";
+                    break;
+                case "Basket2.Model.Statistiques.StatsJoueur":
+                    className = "GameFileConverter.PlayerStats";
+                    break;
+                case "Basket2.Model.Statistiques.StatsDetaillees":
+                    className = "GameFileConverter.PlayerScoreSheet";
                     break;
                 //case "Basket2.Model.Evenements.TirEventArgs":
                 //className = "GameFileConverter.Shot";
@@ -92,6 +105,7 @@ namespace GameFileConverter
                 case "System.Collections.Generic.KeyValuePair`2[[System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[Basket2.Import.Model.Licence, Basket2, Version=1.0.0.4, Culture=neutral, PublicKeyToken=null]]":
                     break;
                 case "System.Collections.Generic.List`1[[Basket2.Model.Licencies.Joueur, Basket2, Version=1.0.0.4, Culture=neutral, PublicKeyToken=null]]":
+                    className = "System.Collections.Generic.List`1[[GameFileConverter.Player]]";
                     break;
                 case "System.Collections.Generic.List`1[[Basket2.Model.Licencies.Entraineur, Basket2, Version=1.0.0.4, Culture=neutral, PublicKeyToken=null]]":
                     break;
@@ -123,20 +137,20 @@ namespace GameFileConverter
     {
         static void Main(string[] args)
         {
-            foreach (string file in args) 
+            foreach (string file in args)
             {
                 FileStream fileStream = new FileStream(file, FileMode.Open, FileAccess.Read);
                 BinaryFormatter binaryFormatter = new BinaryFormatter();
                 binaryFormatter.Binder = new GameFileConverter.Binder();
-                object game = binaryFormatter.Deserialize((Stream) fileStream);
+                object game = binaryFormatter.Deserialize((Stream)fileStream);
                 string json = SerializeObject(game);
-                Console.WriteLine(json);                
+                Console.WriteLine(json);
             }
         }
     }
 
     [Serializable]
-    public class Game 
+    public class Game
     {
         [JsonProperty(PropertyName = "gameChecksum")]
         public Checksum _codeChecker;
@@ -249,10 +263,12 @@ namespace GameFileConverter
 
         [JsonProperty(PropertyName = "events")]
         public Events Historique { get; private set; }
+
+
     }
 
     [Serializable]
-    public class Team 
+    public class Team
     {
         [JsonProperty(PropertyName = "fullName")]
         public string _nom;
@@ -262,6 +278,52 @@ namespace GameFileConverter
 
         [JsonProperty(PropertyName = "digitalNumber")]
         public string _numInformatique;
+
+        [JsonProperty(PropertyName = "players")]
+        public List<Player> Joueurs { get; private set; }
+    }
+
+    [Serializable]
+    public class Player : Licensee, ISerializable
+    {
+
+        [JsonProperty(PropertyName = "stats")]
+        public PlayerStats Stats { get; private set; }
+
+
+        protected Player(SerializationInfo info, StreamingContext context)
+        {
+            _nom = info.GetString("Licencie+_nom");
+            _prenom = info.GetString("Licencie+_prenom");
+        }
+
+        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+        }
+    }
+
+    [Serializable]
+    public class Licensee
+    {
+        [JsonProperty(PropertyName = "lastName")]
+        public string _nom;
+
+        [JsonProperty(PropertyName = "firstName")]
+        public string _prenom;
+    }
+
+    [Serializable]
+    public class PlayerStats
+    {
+        [JsonProperty(PropertyName = "sheet")]
+        public PlayerScoreSheet Stats { get; private set; }
+    }
+
+    [Serializable]
+    public class PlayerScoreSheet
+    {
+        [JsonProperty(PropertyName = "points")]
+        public int NbPtsTot { get; private set; }
     }
 
     [Serializable]
@@ -307,7 +369,7 @@ namespace GameFileConverter
     }
 
     [Serializable]
-    public class LicenseDetails 
+    public class LicenseDetails
     {
         [JsonProperty(PropertyName = "lastName")]
         public string nomField;
