@@ -293,12 +293,31 @@ namespace GameFileConverter
         [JsonProperty(PropertyName = "stats")]
         public PlayerStats Stats { get; private set; }
 
+        [JsonProperty(PropertyName = "isOnCourt")]
+        public bool _isEnJeu;
+
+        [JsonProperty(PropertyName = "jerseyNumber")]
+        public int _numMaillo;
+
+        [JsonProperty(PropertyName = "birthDate")]
+        public DateTime DateNaissance { get; set; }
+
+        [JsonProperty(PropertyName = "nationality")]
+        public string Nationalite { get; set; }
+
 
         protected Player(SerializationInfo info, StreamingContext context)
         {
             _nom = info.GetString("Licencie+_nom");
             _prenom = info.GetString("Licencie+_prenom");
+            _numNational = info.GetString("Licencie+_numNational");
+            _numLicence = info.GetString("Licencie+_numLicence");
             Stats =  (PlayerStats) info.GetValue("<Stats>k__BackingField", typeof(PlayerStats));
+            _isEnJeu = info.GetBoolean("_isEnJeu");
+            _numMaillo = info.GetInt32("_numMaillo");
+            DateNaissance = (DateTime) info.GetValue("<DateNaissance>k__BackingField", typeof(DateTime));
+            Nationalite = (string) info.GetValue("<Nationalite>k__BackingField", typeof(string));                                
+
         }
 
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
@@ -306,6 +325,12 @@ namespace GameFileConverter
             info.AddValue("nom", _nom);
             info.AddValue("prenom", _prenom);
             info.AddValue("stats", Stats);
+            info.AddValue("isOnCourt", _isEnJeu);
+            info.AddValue("jerseyNumber", _numMaillo);
+            info.AddValue("birthDate", DateNaissance);
+            info.AddValue("nationality", Nationalite);
+            info.AddValue("nationalNumber", _numNational);
+            info.AddValue("licenseNumber", _numLicence);
         }
     }
 
@@ -317,6 +342,13 @@ namespace GameFileConverter
 
         [JsonProperty(PropertyName = "firstName")]
         public string _prenom;
+
+        [JsonProperty(PropertyName = "nationalNumber")]
+        public string _numNational;
+
+        [JsonProperty(PropertyName = "licenseNumber")]
+        public string _numLicence;
+
     }
 
     [Serializable]

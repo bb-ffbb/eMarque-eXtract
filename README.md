@@ -89,6 +89,12 @@ Tested with EMarque test file.
                         {
                 "nom": "LAUVERGNE",
                 "prenom": "J",
+                "isOnCourt": false,
+                "jerseyNumber": 5,
+                "birthDate": "0001-01-01T00:00:00",
+                "nationality": null,
+                "nationalNumber": null,
+                "licenseNumber": "VT880024"
                 "stats": {
                     "sheet": {
                         "points": 9,
