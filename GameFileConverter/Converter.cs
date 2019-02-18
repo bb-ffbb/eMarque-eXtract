@@ -70,9 +70,9 @@ namespace GameFileConverter
                 case "Basket2.Model.Statistiques.StatsDetaillees+StatsTir":
                     className = "GameFileConverter.ShootingStatistics";
                     break;
-                //case "Basket2.Model.Evenements.TirEventArgs":
-                //className = "GameFileConverter.Shot";
-                //break;
+                // case "Basket2.Model.Evenements.TirEventArgs":
+                //     className = "GameFileConverter.Shot";
+                //     break;
                 //case "Basket2.Model.Evenements.ConfigBancEquipeEventArgs":
                 //className = "GameFileConverter.TeamBenchConfiguration";
                 //break;
